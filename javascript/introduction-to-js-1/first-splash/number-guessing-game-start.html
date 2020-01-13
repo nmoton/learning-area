@@ -41,17 +41,67 @@
     </div>
 
     <script>
+      //Generate a random number
       let randomNumber = Math.floor(Math.random() * 100) + 1;
 
+      //Cached querySelector to select the guesses paragraph that will print the guesses
       const guesses = document.querySelector('.guesses');
+
+      //Cached querySelector to select the last result paragraph that will print the last result data
       const lastResult = document.querySelector('.lastResult');
+
+      //Cached querySelector to select the paragraph that states whether the guess was low or high
       const lowOrHi = document.querySelector('.lowOrHi');
 
-      const guessSubmit = document.querySelector(.'guessSubmit');
+
+      //Cached querySelectors for the submit button and guess field
+      const guessSubmit = document.querySelector('.guessSubmit');
       const guessField = document.querySelector('.guessField');
 
+      //Keep track of the number of guesses
       let guessCount = 1;
+
+      //Cached querySelector for the reset button
       let resetButton;
+
+      function checkGuess() {
+        //Variable that holds the user's guess
+        let userGuess = Number(guessField.value);
+
+        //If this is the first guess, add the 'Previous guesses' text to the bottom of the guess field'
+        if (guessCount === 1){
+          guesses.textContent = 'Previous guesses: ';
+        }
+        guesses.textContent += userGuess + ' ';
+
+        //If the user guesses the right number, add the congratulations message
+        if (userGuess === randomNumber) {
+          lastResult.textContent = 'Congratulations! You got it right!';
+          lastResult.style.backgroundColor = 'green';
+          lowOrHi.textContent = '';
+          setGameOver();
+
+          //Else if the user guesses too many numbers, end the game
+        } else if (guessCount === 10) {
+          lastResult.textContent = '!!!GAME OVER!!!';
+          setGameOver();
+
+          //Otherwise, if the user guesses the wrong number, print the wrong guess message
+        } else {
+          lastResult.textContent = 'Wrong!';
+          lastResult.style.backgroundColor = 'red';
+          if (userGuess < randomNumber) {
+            lowOrHi.textContent = 'Last guess was too low!';
+          } else if (userGuess > randomNumber) {
+            lowOrHi.textContent = 'Last guess was too high!';
+          }
+        }
+
+        //After every guess, increment by 1, reset the guessing field, and focus the user's attention to the guessing field
+        guessCount ++;
+        guessField.value = '';
+        guessField.focus();
+      }
     </script>
   </body>
 </html>
