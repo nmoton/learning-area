@@ -102,6 +102,50 @@
         guessField.value = '';
         guessField.focus();
       }
+
+      function setGameOver () {
+        //Disable the fields and button
+        guessField.disabled = true;
+        guessSubmit.disabled = true;
+
+        //Add a reset button and append it to the DOM
+        resetButton = document.createElement('button');
+        resetButton.textContent = 'Start new game';
+        document.body.appendChild(resetButton);
+
+        //Add an eventListener for the reset button
+        resetButton.addEventListener('click', resetGame);
+      }
+
+      function resetGame () {
+        guessCount = 1;
+
+        //Manually reset the paragraphs line by line for every resultParas paragraph that exists
+        const resetParas = document.querySelectorAll('.resultParas p');
+        for (let i = 0; i < resetParas.length; i++) {
+          resetParas[i].textContent = '';
+        }
+
+        //Remove the reset button
+        resetButton.parentNode.removeChild(resetButton);
+
+        //Enable the guess field and the guess submit button again
+        guessField.disabled = false;
+        guessSubmit.disabled = false;
+
+        //Reset the guess field and focus the user's browser to the field
+        guessField.value = '';
+        guessField.focus();
+
+        //Change the background back to white
+        lastResult.style.backgroundColor = 'white';
+
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+      }
+
+      //On every click of the guessSubmit button, call the checkGuess function
+      guessSubmit.addEventListener('click', checkGuess);
+
     </script>
   </body>
 </html>
